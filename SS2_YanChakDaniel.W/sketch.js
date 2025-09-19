@@ -1,6 +1,6 @@
 //Yan Chak Daniel, Wan
 //Drawing web
-// hold left click to draw and right click to change color
+// hold left click to draw and right click to change color from black to white
 
 
 
