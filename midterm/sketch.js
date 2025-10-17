@@ -25,7 +25,7 @@ function setup() {
   createCanvas(1280, 720);
   copcarX = width / 2;
   copcarY = height / 2;
-  //resetGame();
+  
 
 
   // the target
@@ -115,7 +115,7 @@ function playGame(){
   // Timer：find it from p5.js website
   let s = (millis()- startTime)/ 1000;
   fill(0);
-  text(`Running time: ${nf(s, 1, 1)} sec`, 10, 20, 200);
+  text(`Running time: ${nf(s, 1, 1)} sec`, 500, 30, 200);
 
   // times up
   if (s >= 10) {
