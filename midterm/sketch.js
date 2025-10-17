@@ -31,8 +31,8 @@ function setup() {
   // the target
   RyanX = 20;
   RyanY = 20;
-  RyanXMove = random(-8, 8);
-  RyanYMove = random(-8, 8);
+  RyanXMove = (8);
+  RyanYMove = (8);
   
   textAlign(LEFT, CENTER);
   textSize(14);
