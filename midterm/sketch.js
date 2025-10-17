@@ -9,7 +9,7 @@ let RyanXMove, RyanYMove;
 
 let state = "pregame";
 let startTime;
-//let result = ""
+
 
 
 
