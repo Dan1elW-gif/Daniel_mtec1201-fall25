@@ -147,7 +147,7 @@ function mousePressed() {
     state = "pregame"}
 }
 
-
+//reset and go back go pregame
 function resetGame()
 {
   copcarX = width /2 ;
