@@ -38,8 +38,8 @@ function draw() {
 
 function mousePressed() {
  
-  posX.push(mouseX);  // store new x position
-  posY.push(mouseY);  // store new y position
+  posX.push(mouseX);  
+  posY.push(mouseY);  
 
   
   speedX.push(random(-3, 3));  // random left/right movement
