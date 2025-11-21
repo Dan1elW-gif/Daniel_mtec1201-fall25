@@ -1,36 +1,47 @@
-/*
-Another demo on arrays.
-Loads images into an array and displays a random image with mouse press.
-*/
+// Daniel W - SS6
 
-let fish = [];  // declares empty array 
+let posX = [];   
+let posY = [];   
+let speedX = []; 
+let speedY = []; 
 
-let whichFish = 0; // creates variable for tracking position in fish array
-
-function setup() 
-{
-  createCanvas(1000, 800); 
-  imageMode(CENTER); 
-
-	//loading each image into array individually
-  fish[0] = loadImage ("images/goldfish.png");
-  fish[1] = loadImage ("images/shark.png");
-  fish[2] = loadImage ("images/trout.png");
-  fish[3] = loadImage ("images/tuna.png");
-  fish[4] = loadImage ("images/herring.png");
+function setup() {
+  createCanvas(700, 700);  
 }
 
-function draw() 
-{
-  background(0, 64, 255); //clear background with blue
+function draw() {
+  background(20);          
 
-  //draw selected image from array at center of screen, at the original image size
-  image(fish[whichFish], width/2, height/2, fish[whichFish].width, fish[whichFish].height);
+  
+  for (let i = 0; i < posX.length; i++) {
+    
+   
+    posX[i] += speedX[i];  
+    posY[i] += speedY[i]; 
+
+    
+    if (posX[i] > width || posX[i] < 0) {  
+      // if circle goes past right or left edge
+      speedX[i] = -speedX[i];   // bounce back
+    }
+
+    if (posY[i] > height || posY[i] < 0) { 
+      // if circle goes past bottom or top edge
+      speedY[i] = -speedY[i];   // reverse y direction
+    }
+
+    
+    fill(100, 150, 255);         // light blue color
+    ellipse(posX[i], posY[i], 40); // draw the moving circle (size = 40)
+  }
 }
 
-function mousePressed() 
-{
-  whichFish = int(random(fish.length)); //need int() conversion as random returns a floating decimal value
-	print(whichFish);                     //print current array index to console  
-  print(fish[whichFish]);               //print currently selected image object info to console
+function mousePressed() {
+ 
+  posX.push(mouseX);  // store new x position
+  posY.push(mouseY);  // store new y position
+
+  
+  speedX.push(random(-3, 3));  // random left/right movement
+  speedY.push(random(-3, 3));  // random up/down movement
 }
