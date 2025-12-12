@@ -1,3 +1,6 @@
+
+
+
 let copcarImg, city, bank, Ryan, maxImg;
 let cspeed = 3;
 let mspeed = 5;
@@ -127,12 +130,12 @@ if (keyIsDown(RIGHT_ARROW)) { maxCars[0].x += mspeed; movingNow = true; }
 if (keyIsDown(UP_ARROW))    { maxCars[0].y -= mspeed; movingNow = true; }
 if (keyIsDown(DOWN_ARROW))  { maxCars[0].y += mspeed; movingNow = true; }
 
-// if he STARTS moving → play song once
+
 if (movingNow && !maxMoving) {
   maxSong.loop();   // only starts once
 }
 
-// if he STOPS moving → stop song
+
 if (!movingNow && maxMoving) {
   maxSong.stop();
 }
