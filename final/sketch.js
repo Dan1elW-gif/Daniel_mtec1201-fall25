@@ -140,7 +140,7 @@ if (!movingNow && maxMoving) {
   maxSong.stop();
 }
 
-// update state
+
 maxMoving = movingNow;
 
 
