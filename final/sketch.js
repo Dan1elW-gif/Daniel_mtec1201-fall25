@@ -7,9 +7,20 @@ let mspeed = 5;
 let maxSong;
 let maxMoving = false;
 let ryanMoving = false;
+let chaseSpeed = 4;
+let fleeSpeed= 0.5; 
+let ryanPos;
+let copPos;
+let maxPos;
+let fleeFromCop = p5.Vector.sub(ryanPos, copPos);
+let fleeFromMax = p5.Vector.sub(ryanPos, maxPos);
+let flee = p5.Vector.add(fleeFromCop, fleeFromMax);
 
-let RyanX, RyanY;
-let RyanXMove, RyanYMove;
+
+
+
+//let RyanX, RyanY;
+//let RyanXMove, RyanYMove;
 
 
 let state = "pregame";
@@ -63,11 +74,15 @@ function preload() {
 function setup() {
   createCanvas(1280, 720);
 
+  ryanPos = createVector(20, 20);
+  copPos = createVector(width / 2, height / 2);
+  maxPos = createVector(width / 2 + 150, height / 2);
+
   // Ryan
-  RyanX = 20;
-  RyanY = 20;
-  RyanXMove = 8;
-  RyanYMove = 8;
+  //RyanX = 20;
+  //RyanY = 20;
+  //RyanXMove = 8;
+  //RyanYMove = 8;
 
   textAlign(LEFT, CENTER);
   textSize(14);
@@ -116,19 +131,26 @@ function playGame() {
   }
 
   // PLAYER MOVEMENT (car #1)
-  if (keyIsDown(65))  copCars[0].x -= cspeed; // A
-  if (keyIsDown(68))  copCars[0].x += cspeed; // D
-  if (keyIsDown(87))  copCars[0].y -= cspeed; // W
-  if (keyIsDown(83))  copCars[0].y += cspeed; // S
+  if (keyIsDown(65))  copPos.x -= cspeed; // A
+  if (keyIsDown(68))  copPos.x += cspeed; // D
+  if (keyIsDown(87))  copPos.y -= cspeed; // W
+  if (keyIsDown(83))  copPos.y += cspeed; // S
+
+  copCars[0].x = copPos.x;
+  copCars[0].y = copPos.y;
+
 
   //MaxCar
+let chaseDir = p5.Vector.sub(ryanPos, maxPos);
+chaseDir.normalize();
+chaseDir.mult(mspeed);
+maxPos.add(chaseDir);
+maxCars[0].x = maxPos.x;
+maxCars[0].y = maxPos.y;
+
+
 let movingNow = false;
 
-// movement
-if (keyIsDown(LEFT_ARROW))  { maxCars[0].x -= mspeed; movingNow = true; }
-if (keyIsDown(RIGHT_ARROW)) { maxCars[0].x += mspeed; movingNow = true; }
-if (keyIsDown(UP_ARROW))    { maxCars[0].y -= mspeed; movingNow = true; }
-if (keyIsDown(DOWN_ARROW))  { maxCars[0].y += mspeed; movingNow = true; }
 
 
 if (movingNow && !maxMoving) {
@@ -141,23 +163,34 @@ if (!movingNow && maxMoving) {
 }
 
 
-maxMoving = movingNow;
+  maxMoving = movingNow;
 
 
 
   // RYAN CAR
   imageMode(CENTER);
-  image(Ryan, RyanX, RyanY, 100, 60);
+  image(Ryan, ryanPos.x, ryanPos.y, 100, 60);
 
-  RyanX += RyanXMove;
-  RyanY += RyanYMove;
+  let fleeFromCop = p5.Vector.sub(ryanPos, copPos);
+let fleeFromMax = p5.Vector.sub(ryanPos, maxPos);
 
-  if (RyanX >= width - 100 || RyanX <= 0) RyanXMove *= -1; 
-  if (RyanY >= height - 60 || RyanY <= 0) RyanYMove *= -1;
+fleeFromCop.normalize();
+fleeFromMax.normalize();
+
+// combine both flee forces
+let flee = p5.Vector.add(fleeFromCop, fleeFromMax);
+
+flee.normalize();
+flee.mult(fleeSpeed);
+
+ryanPos.add(flee);
+
+
+
 
   
   // COLLISION
-  let d = dist(copCars[0].x, copCars[0].y, RyanX, RyanY);
+  let d = dist(copCars[0].x, copCars[0].y, ryanPos.x, ryanPos.y);
   if (d < 80) {
     result = "YOU CAUGHT RYAN GOSLING!";
     maxSong.stop()
@@ -166,7 +199,7 @@ maxMoving = movingNow;
   }
   
   
-  let dis = dist(maxCars[0].x, maxCars[0].y, RyanX, RyanY);
+  let dis = dist(maxCars[0].x, maxCars[0].y, ryanPos.x, ryanPos.y);
   if (dis < 80) {
     result = "Max CAUGHT RYAN GOSLING!";
     maxSong.stop()
@@ -223,11 +256,7 @@ function resetGame() {
   maxCars[0].x = width / 2 + 150;
   maxCars[0].y = height / 2;
 
-  RyanX = 20;
-  RyanY = 20;
-
-  RyanXMove = 7;
-  RyanYMove = 7;
+  
 
   startTime = millis();
 }
